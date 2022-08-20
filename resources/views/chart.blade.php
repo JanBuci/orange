@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Laravel 8 Google Line Graph Chart - Tutsmake.com</title>
+    <title>GRAF NÁKUP/PREDAJ</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -10,7 +10,7 @@
   <body>
 
     <div class="container p-5" style="margin: 0">
-        <h5>Laravel 8 Google Line Chart | Tutsmake.com</h5>
+        <h5>GRAF NÁKUP/PREDAJ - refresh interval (10 sekund)</h5>
 
         <div id="google-line-chart"></div>
 
@@ -44,7 +44,7 @@
         ]);
 
         var options = {
-            title: 'Register Users Month Wise',
+            title: 'GRAF NAKUP/PREDAJ',
             curveType: 'function',
             legend: {position: 'bottom'},
             width: jQuery(window).width(),
@@ -52,8 +52,8 @@
             vAxis: {
                 viewWindowMode: 'explicit',
                 viewWindow: {
-                    max: 1.1,
-                    min: 0.9
+                    max: 1.05,
+                    min: 0.95
                 }
             }
         };
@@ -97,8 +97,8 @@
                     vAxis: {
                         viewWindowMode: 'explicit',
                         viewWindow: {
-                            max: 1.1,
-                            min: 0.9
+                            max: 1.05,
+                            min: 0.95
                         }
                     }
                 };
