@@ -16,6 +16,7 @@ class PublicController extends Controller
 {
     public function getIndexView()
     {
+        //$this->startJob(); // start schedule job
         $data = $this->dataForChart();
         return view('chart')->with('data', $data);
     }
@@ -34,3 +35,12 @@ class PublicController extends Controller
         array_multisort($columns, SORT_ASC, $datamerged);
         return $datamerged;
     }
+
+    private function startJob()
+    {
+        //TODO: make automatic job triggering
+         //overlaping is handled by withoutOverlapping() at Kernel.php
+         Artisan::call('short-schedule:run');
+    }
+
+}
