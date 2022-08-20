@@ -1,64 +1,48 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## O Zadaní
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Zadanie bolo vypracované v najnovšej verzí Laravelu v9.25.1 (PHP v8.1.5, Composer v2.3.9)
 
-## About Laravel
+### Návod na rozbehnutie aplikácie
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Celý repozitár treba vložiť do documentRootu webservera (alebo nasmerovať na priečinok)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+V súbore ```.env ``` treba zmenit databázovú konekciu v sekcií ``` DB_*```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Pred spustením web aplikácie treba v konzole spustiť nasledovné príkazy aby sa framework inicializoval pre nové prostredie
 
-## Learning Laravel
+Aktualizovať knižnice
+```bash
+composer update
+```
+Spustiť migráciu pre databázu (vytvorí v zvolenej databáze tabuľku ```orderbook```)
+```bash
+php artisan migrate
+```
+Premazať cache a skompilované súbory
+```bash
+php artisan optimize:clear
+```
+Spustiť periodický Job pomocou Schedule (bude napĺnať databázu každých 10 sekúnd)
+```bash
+php artisan short-schedule:run
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Následne môžeme aplikáciu spustiť vo webovom prehliadači.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Back-endová časť
+Aplikácia je napojená na API službu cez ```api.kraken.com```.
+Skript stiahne dáta z API, preformátuje a uloží do pripravenej databázovej tabulky.
+Pri vytváraní periodického Jobu bol použitý Laravel Task Schedule, aby aplikácia nebola závislá na externom Crone.
+Pomocou short-schedule knižnice sa táto činnosť vykonáva v 10 sekundovom intervale.
+Dĺžku intervalu je možné upravovať v ```.env ```setting ```API_TIMEOUT```.
 
-## Laravel Sponsors
+### Front-endová časť
+Graf je vytvorený pomocou Google Line Chart. 
+Čerstvé dáta sú dotahované do grafu cez AJAX. 
+Po natiahnutí dát zo servera sa graf prekreslí. Aktualizácia je vykonávaná každých 10 sekúnd.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Možné vylepšenia kódu
+Ošetriť hraničné a hazardné situácie. 
+Ošetrit timeouty na frontende a vylepšiť doťahovanie dát bez prekresľovania grafu.
+Zapnúť automatické spúšťanie short-schedule Jobu na BE.
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
