@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/**
+ * Common route for public view
+ */
 Route::get('/', [PublicController::class, 'getIndexView']);
+/**
+ * Route for AJAX call
+ */
 Route::post('/getData', [PublicController::class, 'getFreshData']);

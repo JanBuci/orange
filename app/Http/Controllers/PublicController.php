@@ -14,6 +14,10 @@ use Spatie\ShortSchedule\ShortSchedule;
 
 class PublicController extends Controller
 {
+    /**
+     * return view to frontend with data
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function getIndexView()
     {
         //$this->startJob(); // start schedule job
@@ -21,11 +25,19 @@ class PublicController extends Controller
         return view('chart')->with('data', $data);
     }
 
+    /**
+     * return data to frontend called by AJAX
+     * @return array
+     */
     public function getFreshData()
     {
         return $this->dataForChart();
     }
 
+    /**
+     * take data from DB, merge and return
+     * @return array
+     */
     private function dataForChart()
     {
         $data['asks'] = OrderBook::where('priznak', '=', 'asks')->orderBy('casova_peciatka', 'DESC')->take(1000)->get()->toArray();
@@ -36,6 +48,10 @@ class PublicController extends Controller
         return $datamerged;
     }
 
+    /**
+     * automatic schedule job starting
+     * @return void
+     */
     private function startJob()
     {
         //TODO: make automatic job triggering

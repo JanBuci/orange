@@ -14,6 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
+        //Use query to create table instead Shchema Object, because of correct columns data types
         Schema::table('orderbook', function (Blueprint $table) {
             DB::statement('CREATE TABLE IF NOT EXISTS `orderbook` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

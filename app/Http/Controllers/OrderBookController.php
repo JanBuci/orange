@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class OrderBookController extends Controller
 {
+    /**
+     * fill DB table with fresh data from API
+     * @return void
+     */
     public function fillOrderBook()
     {
         $data = $this->getDataFromAPI();
@@ -17,6 +21,10 @@ class OrderBookController extends Controller
         }
     }
 
+    /**
+     * make API call and return data
+     * @return null
+     */
     private function getDataFromAPI(){
 
         $opts = stream_context_create(array('http' =>
@@ -28,11 +36,21 @@ class OrderBookController extends Controller
         return $json->result ? : null;
     }
 
+    /**
+     * execute mass insert to DB
+     * @param $json
+     * @return void
+     */
     private function saveDataToDB($json){
         $data = $this->transformData($json);
         OrderBook::insert($data);
     }
 
+    /**
+     * parse data from json to data table structure
+     * @param $data
+     * @return array
+     */
     private function transformData($data)
     {
         $dataArray = array();
