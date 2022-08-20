@@ -1,0 +1,42 @@
+Zadanie
+-------
+Toto zadanie ma za ciel preverit pristup uchadzaca k novemu problemu, samostatne zorientovanie sa v novej problematike a 
+zakladne vyuzitie fw laravel, db a js.
+V pripade nedostatku casu/skusenosti je mozne vypracovat len BE cast.
+Staci hruby prototyp, ide hlavne o pouzitie principov, nie je potrebne riesit vsetky hranicne pripady.
+V ramci zadania je potrebne v komentaroch uviest, ktore casti povazujete za nedokoncene a co by sa v nich este zislo 
+upravit/pridat. Preco je potrebne podla uchadzaca spravit tieto dodatocne upravy.
+
+Cielom zadania je realizovat vizualizaciu spreadu v ramci obchodovania menoveho paru na zvolenej burze. Moze byt aj 
+virtualna mena.
+* BE cast
+  * najst lubovolnu verejne dostupnu sluzbu, ktora poskytuje order book pre zvoleny menovy par
+  * implementovat napojenie na danu sluzbu cez command line
+  * po spusteni prikazu sa tento napoji na zvolenu api a v stanovenych intervaloch ulozi do db nasledujuce udaje:
+    * datum a cas
+    * zdrojova mena 
+    * cielova mena
+    * cena 
+    * priznak, ci ide o predaj alebo nakup
+  * z orderbooku je potrebne vybrat najlepsie ceny a zaznamenat len tie. Je potrebne, aby pri danej cene bolo mozne
+  zrealizovat obchod aspon za 500$ (resp obdobna hodnota v inej mene). Lepsie ponuky, ale s nizsim objemom sa ignoruju.
+* FE cast
+  * implementovat web gui, ktore vizualizuje data ziskane cez command line nasledovne:
+    * zobrazi graf s osami:
+      * x - cas
+      * y - cena
+      * na grafe budu zobrazene body
+        * nakupna cena v danom case
+        * predajna cena v danom case
+    * udaje na grafe sa musia priebezna prekreslovat podla pribudajucich udajov v db
+      
+Poznamky:
+* implementacia musi byt realizovana v laraveli a mysql/mariadb + js
+* vypracovanie zadanie je potrebne dodat ako link na verejny git repozitar (github, bitbucket a podobne)
+* k realizacii je potrebne dodat navod na rozbehanie
+* pri volani api je potrebne mysliet na throttling
+* cielom je dosiahnut "near real time" pocit zo zobrazenia. T.j. update by mal byt aspon raz za 10 sekund ... samozrejme
+zalezi od zvolenej api a jej limitov
+* napr. je mozne pouzit tieto api:
+  * https://docs.kraken.com/rest/#tag/Market-Data/operation/getOrderBook
+  * https://docs.cex.io/#orderbook
